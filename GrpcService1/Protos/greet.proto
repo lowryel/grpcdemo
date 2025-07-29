@@ -5,15 +5,24 @@ option csharp_namespace = "GrpcService1";
 package greet;
 
 service Greeter {
-  rpc SayHello (HelloRequest) returns (HelloReply);
+  rpc CreateEvent (HelloRequest) returns (HelloReply);
   rpc SayGoodBye (GoodByeRequest) returns (GoodByeReply);
   rpc GetGreeter (GetGreeterRequest) returns (HelloReply);
+  rpc UpdateGreeter (UpdateGreeterRequest) returns (HelloReply);
+  rpc DeleteGreeter (GetGreeterRequest) returns (GoodByeReply);
+  rpc GetManyGreeters (GetManyGreetersRequest) returns (stream HelloReply);
 }
 
 message HelloRequest {
   string name = 1;
   int32 age = 2;
   string city = 3;
+}
+message UpdateGreeterRequest {
+  string name = 1;
+  int32 age = 2;
+  string city = 3;
+  int32 id = 4;
 }
 
 message HelloReply {
@@ -37,4 +46,8 @@ message GetGreeterRequest {
 
 message GetGreeterReply {
   string message = 1;
+}
+
+message GetManyGreetersRequest {
+  int32 count = 1; // Number of Greeters to retrieve
 }

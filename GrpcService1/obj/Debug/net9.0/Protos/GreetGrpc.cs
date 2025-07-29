@@ -55,12 +55,16 @@ namespace GrpcService1 {
     static readonly grpc::Marshaller<global::GrpcService1.GoodByeReply> __Marshaller_greet_GoodByeReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GrpcService1.GoodByeReply.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::GrpcService1.GetGreeterRequest> __Marshaller_greet_GetGreeterRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GrpcService1.GetGreeterRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::GrpcService1.UpdateGreeterRequest> __Marshaller_greet_UpdateGreeterRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GrpcService1.UpdateGreeterRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::GrpcService1.GetManyGreetersRequest> __Marshaller_greet_GetManyGreetersRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GrpcService1.GetManyGreetersRequest.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::GrpcService1.HelloRequest, global::GrpcService1.HelloReply> __Method_SayHello = new grpc::Method<global::GrpcService1.HelloRequest, global::GrpcService1.HelloReply>(
+    static readonly grpc::Method<global::GrpcService1.HelloRequest, global::GrpcService1.HelloReply> __Method_CreateEvent = new grpc::Method<global::GrpcService1.HelloRequest, global::GrpcService1.HelloReply>(
         grpc::MethodType.Unary,
         __ServiceName,
-        "SayHello",
+        "CreateEvent",
         __Marshaller_greet_HelloRequest,
         __Marshaller_greet_HelloReply);
 
@@ -80,6 +84,30 @@ namespace GrpcService1 {
         __Marshaller_greet_GetGreeterRequest,
         __Marshaller_greet_HelloReply);
 
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::GrpcService1.UpdateGreeterRequest, global::GrpcService1.HelloReply> __Method_UpdateGreeter = new grpc::Method<global::GrpcService1.UpdateGreeterRequest, global::GrpcService1.HelloReply>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "UpdateGreeter",
+        __Marshaller_greet_UpdateGreeterRequest,
+        __Marshaller_greet_HelloReply);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::GrpcService1.GetGreeterRequest, global::GrpcService1.GoodByeReply> __Method_DeleteGreeter = new grpc::Method<global::GrpcService1.GetGreeterRequest, global::GrpcService1.GoodByeReply>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "DeleteGreeter",
+        __Marshaller_greet_GetGreeterRequest,
+        __Marshaller_greet_GoodByeReply);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::GrpcService1.GetManyGreetersRequest, global::GrpcService1.HelloReply> __Method_GetManyGreeters = new grpc::Method<global::GrpcService1.GetManyGreetersRequest, global::GrpcService1.HelloReply>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "GetManyGreeters",
+        __Marshaller_greet_GetManyGreetersRequest,
+        __Marshaller_greet_HelloReply);
+
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
@@ -91,7 +119,7 @@ namespace GrpcService1 {
     public abstract partial class GreeterBase
     {
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::GrpcService1.HelloReply> SayHello(global::GrpcService1.HelloRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::GrpcService1.HelloReply> CreateEvent(global::GrpcService1.HelloRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -108,6 +136,24 @@ namespace GrpcService1 {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::GrpcService1.HelloReply> UpdateGreeter(global::GrpcService1.UpdateGreeterRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::GrpcService1.GoodByeReply> DeleteGreeter(global::GrpcService1.GetGreeterRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task GetManyGreeters(global::GrpcService1.GetManyGreetersRequest request, grpc::IServerStreamWriter<global::GrpcService1.HelloReply> responseStream, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
     }
 
     /// <summary>Creates service definition that can be registered with a server</summary>
@@ -116,9 +162,12 @@ namespace GrpcService1 {
     public static grpc::ServerServiceDefinition BindService(GreeterBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_SayHello, serviceImpl.SayHello)
+          .AddMethod(__Method_CreateEvent, serviceImpl.CreateEvent)
           .AddMethod(__Method_SayGoodBye, serviceImpl.SayGoodBye)
-          .AddMethod(__Method_GetGreeter, serviceImpl.GetGreeter).Build();
+          .AddMethod(__Method_GetGreeter, serviceImpl.GetGreeter)
+          .AddMethod(__Method_UpdateGreeter, serviceImpl.UpdateGreeter)
+          .AddMethod(__Method_DeleteGreeter, serviceImpl.DeleteGreeter)
+          .AddMethod(__Method_GetManyGreeters, serviceImpl.GetManyGreeters).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -128,9 +177,12 @@ namespace GrpcService1 {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     public static void BindService(grpc::ServiceBinderBase serviceBinder, GreeterBase serviceImpl)
     {
-      serviceBinder.AddMethod(__Method_SayHello, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GrpcService1.HelloRequest, global::GrpcService1.HelloReply>(serviceImpl.SayHello));
+      serviceBinder.AddMethod(__Method_CreateEvent, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GrpcService1.HelloRequest, global::GrpcService1.HelloReply>(serviceImpl.CreateEvent));
       serviceBinder.AddMethod(__Method_SayGoodBye, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GrpcService1.GoodByeRequest, global::GrpcService1.GoodByeReply>(serviceImpl.SayGoodBye));
       serviceBinder.AddMethod(__Method_GetGreeter, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GrpcService1.GetGreeterRequest, global::GrpcService1.HelloReply>(serviceImpl.GetGreeter));
+      serviceBinder.AddMethod(__Method_UpdateGreeter, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GrpcService1.UpdateGreeterRequest, global::GrpcService1.HelloReply>(serviceImpl.UpdateGreeter));
+      serviceBinder.AddMethod(__Method_DeleteGreeter, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GrpcService1.GetGreeterRequest, global::GrpcService1.GoodByeReply>(serviceImpl.DeleteGreeter));
+      serviceBinder.AddMethod(__Method_GetManyGreeters, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GrpcService1.GetManyGreetersRequest, global::GrpcService1.HelloReply>(serviceImpl.GetManyGreeters));
     }
 
   }

@@ -1,3 +1,5 @@
 {
-    "dotnet.defaultSolution": "GrpcService1.sln"
+    "dotnet.defaultSolution": "GrpcService1.sln",
+    "workbench.editor.wrapTabs": true,
+    "editor.wordWrap": "wordWrapColumn"
 }
