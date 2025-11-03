@@ -1,20 +1,19 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Grpc.Core;
 using GrpcService1;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GrpcService1.Services;
 
-public class GreeterService : Greeter.GreeterBase
+public class GreeterService(ILogger<GreeterService> logger, MyAppDbContext dbContext, IConfiguration configuration) : Greeter.GreeterBase
 {
-    private readonly ILogger<GreeterService> _logger;
-    private readonly MyAppDbContext _dbContext;
-
-
-    public GreeterService(ILogger<GreeterService> logger, MyAppDbContext dbContext)
-    {
-        _logger = logger;
-        _dbContext = dbContext;
-    }
+    private readonly ILogger _logger = logger;
+    private readonly MyAppDbContext _dbContext = dbContext;
+    private readonly IConfiguration _configuration = configuration;
 
     public override async Task<HelloReply> CreateEvent(HelloRequest request, ServerCallContext context)
     {
@@ -187,6 +186,7 @@ public class GreeterService : Greeter.GreeterBase
         return reply;
     }
 
+    // [Authorize]
     public override Task<GoodByeReply> SayGoodBye(GoodByeRequest request, ServerCallContext context)
     {
         var replyMessage = $"Goodbye, {request.Name}. See you next time!";
@@ -196,5 +196,53 @@ public class GreeterService : Greeter.GreeterBase
             Message = replyMessage
         });
     }
-}
 
+    public override Task<LoginResponse> Login(LoginRequest request, ServerCallContext context)
+    {
+        // 1️⃣ Validate input
+        if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
+        {
+            throw new RpcException(new Status(StatusCode.InvalidArgument, "Username and password are required."));
+        }
+
+        // 2️⃣ Check credentials (replace this with real database lookup)
+        // Example: normally you'd check hashed password from DB
+        if (request.Username != "admin" || request.Password != "Cartelo@009")
+        {
+            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid username or password."));
+        }
+
+        // 3️⃣ Generate JWT token
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!);
+
+        var claims = new[]
+        {
+                new Claim(ClaimTypes.Name, request.Username),
+                new Claim(ClaimTypes.Role, "Administrator"),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddMinutes(
+                Convert.ToDouble(_configuration["Jwt:ExpiryMinutes"] ?? "60")),
+            Issuer = _configuration["Jwt:Issuer"],
+            Audience = _configuration["Jwt:Audience"],
+            SigningCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature)
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        var jwtToken = tokenHandler.WriteToken(token);
+
+        // 4️⃣ Return token
+        return Task.FromResult(new LoginResponse
+        {
+            Token = jwtToken,
+            Message = "Login successful"
+        });
+    }
+}

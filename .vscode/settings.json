@@ -1,5 +1,7 @@
 {
     "dotnet.defaultSolution": "GrpcService1.sln",
     "workbench.editor.wrapTabs": true,
-    "editor.wordWrap": "wordWrapColumn"
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 120,
+    "editor.wrapOnEscapedLineFeeds": true
 }
